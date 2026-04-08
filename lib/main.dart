@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'pages/home_page.dart';
-import 'pages/dzikir_page.dart';
-import 'pages/doa_page.dart';
+import 'routes/app_routes.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -12,22 +10,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
+
       debugShowCheckedModeBanner: false,
-      title: 'TasbihKu',
 
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-        fontFamily: 'Poppins',
-      ),
+      title: "TasbihKu",
 
-      initialRoute: '/',
+      initialRoute: AppRoutes.home,
 
-      routes: {
-        '/': (context) => HomePage(),
-        '/dzikir': (context) => DzikirPage(),
-        '/doa': (context) => DoaPage(),
-      },
+      routes: AppRoutes.routes,
+
     );
+
   }
 }
