@@ -31,13 +31,9 @@ class HomePage extends StatelessWidget {
                   const SizedBox(height: 40),
 
                   /// title
-                  const Text(
-                    "TasbihKu 🌙",
-                    style: TextStyle(
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black87,
-                    ),
+                  Image.asset(
+                    "assets/images/logo.png",
+                    height: 80,
                   ),
 
                   const SizedBox(height: 6),
