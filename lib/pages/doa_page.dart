@@ -8,7 +8,6 @@ class DoaPage extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          /// BACKGROUND (SAMA SEPERTI HOME)
           SizedBox.expand(
             child: Image.asset("assets/images/bg_home.jpg", fit: BoxFit.cover),
           ),
@@ -17,7 +16,6 @@ class DoaPage extends StatelessWidget {
           SafeArea(
             child: Column(
               children: [
-                /// APPBAR MANUAL (BIAR MATCH STYLE)
                 Padding(
                   padding: const EdgeInsets.all(16),
                   child: Row(
@@ -121,11 +119,11 @@ class DoaItem extends StatelessWidget {
       padding: const EdgeInsets.all(16),
 
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.9), // SAMA KAYAK HOME
+        color: Colors.white.withOpacity(0.9),
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.shade300, // SAMA KAYAK HOME
+            color: Colors.grey.shade300,
             blurRadius: 6,
             offset: const Offset(2, 2),
           ),
