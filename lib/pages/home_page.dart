@@ -15,7 +15,7 @@ class HomePage extends StatelessWidget {
           /// background image
           SizedBox.expand(
             child: Image.asset(
-              "assets/images/bg_home.jpg",
+              "assets/images/bg_home.png",
               fit: BoxFit.cover,
             ),
           ),
@@ -28,25 +28,25 @@ class HomePage extends StatelessWidget {
               child: Column(
                 children: [
 
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 80),
 
                   /// title
                   Image.asset(
-                    "assets/images/logo.png",
+                    "assets/images/judul.png",
                     height: 80,
                   ),
 
                   const SizedBox(height: 6),
 
                   const Text(
-                    "Dzikir & Doa Harian",
+                    "Dzikir dan Doa Harian",
                     style: TextStyle(
                       fontSize: 16,
-                      color: Colors.black54,
+                      color: Color.fromARGB(255, 255, 255, 255),
                     ),
                   ),
 
-                  const SizedBox(height: 120),
+                  const SizedBox(height: 140),
 
                   /// tombol dzikir
                   menuCard(

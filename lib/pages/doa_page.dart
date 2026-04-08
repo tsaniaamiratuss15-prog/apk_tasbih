@@ -8,8 +8,8 @@ class DoaPage extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          SizedBox.expand(
-            child: Image.asset("assets/images/bg_home.jpg", fit: BoxFit.cover),
+          Container(
+            color: const Color(0xffE8EFE6),
           ),
 
           /// CONTENT

@@ -10,7 +10,6 @@ class DzikirPage extends StatefulWidget {
 class _DzikirPageState extends State<DzikirPage> {
 
   int counter = 0;
-  int target = 33;
 
   Map<String, String> dzikirList = {
     "Subhanallah": "Maha Suci Allah",
@@ -23,13 +22,9 @@ class _DzikirPageState extends State<DzikirPage> {
 
   void incrementCounter() {
 
-    if (counter < target) {
-
-      setState(() {
-        counter++;
-      });
-
-    }
+    setState(() {
+      counter++;
+    });
 
   }
 
@@ -37,17 +32,6 @@ class _DzikirPageState extends State<DzikirPage> {
 
     setState(() {
       counter = 0;
-    });
-
-  }
-
-  void changeTarget(int value) {
-
-    setState(() {
-
-      target = value;
-      counter = 0;
-
     });
 
   }
@@ -167,7 +151,7 @@ class _DzikirPageState extends State<DzikirPage> {
                 ),
               ),
 
-              const SizedBox(height: 40),
+              const SizedBox(height: 60),
 
               /// tombol counter
               GestureDetector(
@@ -197,7 +181,7 @@ class _DzikirPageState extends State<DzikirPage> {
                     boxShadow: [
 
                       BoxShadow(
-                        color: Colors.green.shade200,
+                        color: Colors.greenAccent.withOpacity(.3),
                         blurRadius: 20,
                       )
 
@@ -234,26 +218,9 @@ class _DzikirPageState extends State<DzikirPage> {
                 ),
               ),
 
-              const SizedBox(height: 30),
+              const SizedBox(height: 40),
 
-              /// target button
-              Row(
-
-                mainAxisAlignment:
-                    MainAxisAlignment.spaceEvenly,
-
-                children: [
-
-                  targetButton(33),
-                  targetButton(100),
-                  targetButton(1000),
-
-                ],
-              ),
-
-              const SizedBox(height: 20),
-
-              /// reset
+              /// reset button
               SizedBox(
 
                 width: double.infinity,
@@ -266,18 +233,6 @@ class _DzikirPageState extends State<DzikirPage> {
 
                   label: const Text("Reset"),
 
-                  style: ElevatedButton.styleFrom(
-
-                    backgroundColor: Colors.white,
-
-                    foregroundColor: Colors.black,
-
-                    shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.circular(16),
-                    ),
-
-                  ),
                 ),
               ),
 
@@ -285,33 +240,6 @@ class _DzikirPageState extends State<DzikirPage> {
           ),
         ),
       ),
-    );
-  }
-
-  Widget targetButton(int value) {
-
-    return ElevatedButton(
-
-      onPressed: () => changeTarget(value),
-
-      style: ElevatedButton.styleFrom(
-
-        backgroundColor:
-            target == value
-                ? const Color(0xff6C8F6D)
-                : Colors.white,
-
-        foregroundColor:
-            target == value
-                ? Colors.white
-                : Colors.black,
-
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-      ),
-
-      child: Text("$value"),
     );
   }
 }

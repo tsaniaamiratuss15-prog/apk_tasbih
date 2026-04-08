@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../pages/home_page.dart';
 import '../pages/dzikir_page.dart';
-//import '../pages/doa_page.dart';
+import '../pages/doa_page.dart';
 
 class AppRoutes {
 
@@ -15,7 +15,7 @@ class AppRoutes {
 
     dzikir: (context) => const DzikirPage(),
 
-    //doa: (context) => const DoaPage(),
+    doa: (context) => const DoaPage(),
 
   };
 
