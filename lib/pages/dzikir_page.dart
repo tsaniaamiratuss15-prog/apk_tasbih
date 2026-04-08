@@ -8,96 +8,218 @@ class DzikirPage extends StatefulWidget {
 }
 
 class _DzikirPageState extends State<DzikirPage> {
+
   int counter = 0;
   int target = 33;
 
+  Map<String, String> dzikirList = {
+    "Subhanallah": "Maha Suci Allah",
+    "Alhamdulillah": "Segala Puji Bagi Allah",
+    "Allahu Akbar": "Allah Maha Besar",
+    "Astaghfirullah": "Aku memohon ampun kepada Allah",
+  };
+
+  String selectedDzikir = "Subhanallah";
+
   void incrementCounter() {
+
     if (counter < target) {
+
       setState(() {
         counter++;
       });
+
     }
+
   }
 
   void resetCounter() {
+
     setState(() {
       counter = 0;
     });
+
   }
 
-  void changeTarget(int newTarget) {
+  void changeTarget(int value) {
+
     setState(() {
-      target = newTarget;
+
+      target = value;
       counter = 0;
+
     });
+
   }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Dzikir"),
-        backgroundColor: Colors.green,
-      ),
 
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          children: [
+      backgroundColor: const Color(0xffE8EFE6),
 
-            /// teks dzikir
-            const SizedBox(height: 20),
+      body: SafeArea(
 
-            const Text(
-              "Subhanallah",
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
+        child: Padding(
+
+          padding: const EdgeInsets.all(20),
+
+          child: Column(
+
+            children: [
+
+              /// AppBar custom
+              Row(
+
+                children: [
+
+                  IconButton(
+                    icon: const Icon(Icons.arrow_back),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+
+                  const Spacer(),
+
+                  const Text(
+                    "Dzikir",
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+                  const Spacer(),
+
+                ],
               ),
-            ),
 
-            const Text(
-              "Maha Suci Allah",
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey,
-              ),
-            ),
+              const SizedBox(height: 20),
 
-            const SizedBox(height: 40),
+              /// dropdown dzikir
+              Container(
 
-            /// tombol counter
-            GestureDetector(
-              onTap: incrementCounter,
-              child: Container(
-                width: 180,
-                height: 180,
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+
                 decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.green[400],
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.green.shade200,
-                      blurRadius: 20,
-                      spreadRadius: 5,
-                    )
-                  ],
+
+                  color: Colors.white,
+
+                  borderRadius: BorderRadius.circular(16),
+
                 ),
-                child: Center(
+
+                child: DropdownButtonHideUnderline(
+
+                  child: DropdownButton<String>(
+
+                    value: selectedDzikir,
+
+                    isExpanded: true,
+
+                    items: dzikirList.keys.map((String dzikir) {
+
+                      return DropdownMenuItem(
+
+                        value: dzikir,
+
+                        child: Column(
+                          crossAxisAlignment:
+                              CrossAxisAlignment.start,
+                          children: [
+
+                            Text(
+                              dzikir,
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+
+                            Text(
+                              dzikirList[dzikir]!,
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: Colors.grey,
+                              ),
+                            ),
+
+                          ],
+                        ),
+                      );
+
+                    }).toList(),
+
+                    onChanged: (value) {
+
+                      setState(() {
+
+                        selectedDzikir = value!;
+                        counter = 0;
+
+                      });
+
+                    },
+
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 40),
+
+              /// tombol counter
+              GestureDetector(
+
+                onTap: incrementCounter,
+
+                child: Container(
+
+                  width: 220,
+                  height: 220,
+
+                  decoration: BoxDecoration(
+
+                    shape: BoxShape.circle,
+
+                    gradient: const LinearGradient(
+
+                      colors: [
+                        Color(0xff7FAF8B),
+                        Color(0xff4F7C63),
+                      ],
+
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
+
+                    boxShadow: [
+
+                      BoxShadow(
+                        color: Colors.green.shade200,
+                        blurRadius: 20,
+                      )
+
+                    ],
+
+                  ),
+
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+
+                    mainAxisAlignment:
+                        MainAxisAlignment.center,
+
                     children: [
 
                       Text(
                         "$counter",
                         style: const TextStyle(
-                          fontSize: 40,
+                          fontSize: 44,
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-
-                      const SizedBox(height: 10),
 
                       const Text(
                         "TAP",
@@ -106,54 +228,89 @@ class _DzikirPageState extends State<DzikirPage> {
                           color: Colors.white,
                         ),
                       ),
+
                     ],
                   ),
                 ),
               ),
-            ),
 
-            const SizedBox(height: 30),
+              const SizedBox(height: 30),
 
-            /// pilihan target dzikir
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
+              /// target button
+              Row(
 
-                targetButton(33),
-                targetButton(100),
-                targetButton(1000),
+                mainAxisAlignment:
+                    MainAxisAlignment.spaceEvenly,
 
-              ],
-            ),
+                children: [
 
-            const SizedBox(height: 20),
+                  targetButton(33),
+                  targetButton(100),
+                  targetButton(1000),
 
-            /// reset button
-            ElevatedButton.icon(
-              onPressed: resetCounter,
-              icon: const Icon(Icons.refresh),
-              label: const Text("Reset"),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.grey[300],
-                foregroundColor: Colors.black,
+                ],
               ),
-            ),
-          ],
+
+              const SizedBox(height: 20),
+
+              /// reset
+              SizedBox(
+
+                width: double.infinity,
+
+                child: ElevatedButton.icon(
+
+                  onPressed: resetCounter,
+
+                  icon: const Icon(Icons.refresh),
+
+                  label: const Text("Reset"),
+
+                  style: ElevatedButton.styleFrom(
+
+                    backgroundColor: Colors.white,
+
+                    foregroundColor: Colors.black,
+
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(16),
+                    ),
+
+                  ),
+                ),
+              ),
+
+            ],
+          ),
         ),
       ),
     );
   }
 
-  /// widget tombol target
   Widget targetButton(int value) {
+
     return ElevatedButton(
+
       onPressed: () => changeTarget(value),
+
       style: ElevatedButton.styleFrom(
+
         backgroundColor:
-            target == value ? Colors.green : Colors.grey[300],
+            target == value
+                ? const Color(0xff6C8F6D)
+                : Colors.white,
+
         foregroundColor:
-            target == value ? Colors.white : Colors.black,
+            target == value
+                ? Colors.white
+                : Colors.black,
+
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
       ),
+
       child: Text("$value"),
     );
   }
