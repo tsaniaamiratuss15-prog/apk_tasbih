@@ -6,18 +6,12 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-
       body: Stack(
         children: [
-
           /// background image
           SizedBox.expand(
-            child: Image.asset(
-              "assets/images/bg_home.png",
-              fit: BoxFit.cover,
-            ),
+            child: Image.asset("assets/images/bg_home.png", fit: BoxFit.cover),
           ),
 
           /// content
@@ -27,14 +21,10 @@ class HomePage extends StatelessWidget {
 
               child: Column(
                 children: [
-
                   const SizedBox(height: 80),
 
                   /// title
-                  Image.asset(
-                    "assets/images/judul.png",
-                    height: 80,
-                  ),
+                  Image.asset("assets/images/judul.png", height: 80),
 
                   const SizedBox(height: 6),
 
@@ -49,25 +39,25 @@ class HomePage extends StatelessWidget {
                   const SizedBox(height: 140),
 
                   /// tombol dzikir
-                  menuCard(
-                    context,
-                    title: "Dzikir",
-                    route: AppRoutes.dzikir,
-                  ),
+                  menuCard(context, title: "Dzikir", route: AppRoutes.dzikir),
 
                   const SizedBox(height: 20),
 
                   /// tombol doa
+                  menuCard(context, title: "Doa", route: AppRoutes.doa),
+
+                  const SizedBox(height: 20),
+
+                  /// tombol tren
                   menuCard(
                     context,
-                    title: "Doa",
-                    route: AppRoutes.doa,
+                    title: "Tren Dzikir",
+                    route: AppRoutes.trend,
                   ),
                 ],
               ),
             ),
           ),
-
         ],
       ),
     );
@@ -75,25 +65,20 @@ class HomePage extends StatelessWidget {
 
   /// reusable card button
   Widget menuCard(
-      BuildContext context,
-      {
-        required String title,
-        required String route,
-      }) {
-
+    BuildContext context, {
+    required String title,
+    required String route,
+  }) {
     return GestureDetector(
-
       onTap: () {
         Navigator.pushNamed(context, route);
       },
 
       child: Container(
-
         width: double.infinity,
         height: 70,
 
         decoration: BoxDecoration(
-
           color: Colors.white.withOpacity(0.9),
 
           borderRadius: BorderRadius.circular(20),
@@ -103,7 +88,7 @@ class HomePage extends StatelessWidget {
               color: Colors.grey.shade300,
               blurRadius: 6,
               offset: const Offset(2, 2),
-            )
+            ),
           ],
         ),
 
@@ -114,17 +99,12 @@ class HomePage extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-
             Text(
               title,
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-              ),
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
             ),
 
             const Icon(Icons.arrow_forward_ios),
-
           ],
         ),
       ),

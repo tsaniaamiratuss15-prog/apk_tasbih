@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class DzikirPage extends StatefulWidget {
   const DzikirPage({super.key});
@@ -8,7 +9,6 @@ class DzikirPage extends StatefulWidget {
 }
 
 class _DzikirPageState extends State<DzikirPage> {
-
   int counter = 0;
 
   Map<String, String> dzikirList = {
@@ -20,46 +20,48 @@ class _DzikirPageState extends State<DzikirPage> {
 
   String selectedDzikir = "Subhanallah";
 
-  void incrementCounter() {
+  /// kirim data ke database
+  Future<void> updateTrend() async {
+    await http.post(
+      Uri.parse("http://127.0.0.1/go_tasbih_api/update_dzikir.php"),
 
+      body: {"nama_dzikir": selectedDzikir},
+    );
+  }
+
+  /// tambah counter
+  void incrementCounter() {
     setState(() {
       counter++;
     });
 
+    updateTrend();
   }
 
+  /// reset counter
   void resetCounter() {
-
     setState(() {
       counter = 0;
     });
-
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-
       backgroundColor: const Color(0xffE8EFE6),
 
       body: SafeArea(
-
         child: Padding(
-
           padding: const EdgeInsets.all(20),
 
           child: Column(
-
             children: [
-
-              /// AppBar custom
+              /// header
               Row(
-
                 children: [
-
                   IconButton(
                     icon: const Icon(Icons.arrow_back),
+
                     onPressed: () {
                       Navigator.pop(context);
                     },
@@ -69,14 +71,11 @@ class _DzikirPageState extends State<DzikirPage> {
 
                   const Text(
                     "Dzikir",
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                    ),
+
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                   ),
 
                   const Spacer(),
-
                 ],
               ),
 
@@ -84,38 +83,31 @@ class _DzikirPageState extends State<DzikirPage> {
 
               /// dropdown dzikir
               Container(
-
                 padding: const EdgeInsets.symmetric(horizontal: 16),
 
                 decoration: BoxDecoration(
-
                   color: Colors.white,
 
                   borderRadius: BorderRadius.circular(16),
-
                 ),
 
                 child: DropdownButtonHideUnderline(
-
                   child: DropdownButton<String>(
-
                     value: selectedDzikir,
 
                     isExpanded: true,
 
                     items: dzikirList.keys.map((String dzikir) {
-
                       return DropdownMenuItem(
-
                         value: dzikir,
 
                         child: Column(
-                          crossAxisAlignment:
-                              CrossAxisAlignment.start,
-                          children: [
+                          crossAxisAlignment: CrossAxisAlignment.start,
 
+                          children: [
                             Text(
                               dzikir,
+
                               style: const TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
@@ -124,29 +116,23 @@ class _DzikirPageState extends State<DzikirPage> {
 
                             Text(
                               dzikirList[dzikir]!,
+
                               style: const TextStyle(
                                 fontSize: 14,
                                 color: Colors.grey,
                               ),
                             ),
-
                           ],
                         ),
                       );
-
                     }).toList(),
 
                     onChanged: (value) {
-
                       setState(() {
-
                         selectedDzikir = value!;
                         counter = 0;
-
                       });
-
                     },
-
                   ),
                 ),
               ),
@@ -155,49 +141,38 @@ class _DzikirPageState extends State<DzikirPage> {
 
               /// tombol counter
               GestureDetector(
-
                 onTap: incrementCounter,
 
                 child: Container(
-
                   width: 220,
                   height: 220,
 
                   decoration: BoxDecoration(
-
                     shape: BoxShape.circle,
 
                     gradient: const LinearGradient(
-
-                      colors: [
-                        Color(0xff7FAF8B),
-                        Color(0xff4F7C63),
-                      ],
+                      colors: [Color(0xff7FAF8B), Color(0xff4F7C63)],
 
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                     ),
 
                     boxShadow: [
-
                       BoxShadow(
                         color: Colors.greenAccent.withOpacity(.3),
+
                         blurRadius: 20,
-                      )
-
+                      ),
                     ],
-
                   ),
 
                   child: Column(
-
-                    mainAxisAlignment:
-                        MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
 
                     children: [
-
                       Text(
                         "$counter",
+
                         style: const TextStyle(
                           fontSize: 44,
                           color: Colors.white,
@@ -207,12 +182,9 @@ class _DzikirPageState extends State<DzikirPage> {
 
                       const Text(
                         "TAP",
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.white,
-                        ),
-                      ),
 
+                        style: TextStyle(fontSize: 18, color: Colors.white),
+                      ),
                     ],
                   ),
                 ),
@@ -220,22 +192,18 @@ class _DzikirPageState extends State<DzikirPage> {
 
               const SizedBox(height: 40),
 
-              /// reset button
+              /// tombol reset
               SizedBox(
-
                 width: double.infinity,
 
                 child: ElevatedButton.icon(
-
                   onPressed: resetCounter,
 
                   icon: const Icon(Icons.refresh),
 
                   label: const Text("Reset"),
-
                 ),
               ),
-
             ],
           ),
         ),
