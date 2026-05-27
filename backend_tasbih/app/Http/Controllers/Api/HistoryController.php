@@ -51,4 +51,65 @@ extends Controller
             ->latest()
             ->get();
     }
+
+    /// GET TREND
+    public function trend(
+        $id
+    )
+    {
+        $history =
+        HistoriZikir::where(
+            'user_id',
+            $id
+        )
+        ->where(
+            'tanggal',
+            '>=',
+            now()->subDays(6)
+        )
+        ->get();
+
+        $days = [
+            'Mon',
+            'Tue',
+            'Wed',
+            'Thu',
+            'Fri',
+            'Sat',
+            'Sun'
+        ];
+
+        $result = [];
+
+        foreach ($days as $day) {
+
+            $total =
+            $history
+            ->filter(
+                function ($item)
+                use ($day) {
+
+                return date(
+                    'D',
+                    strtotime(
+                        $item->tanggal
+                    )
+                ) == $day;
+            })
+            ->sum('jumlah');
+
+            $result[] = [
+                'day' =>
+                $day,
+
+                'total' =>
+                $total,
+            ];
+        }
+
+        return response()
+            ->json(
+                $result
+            );
+    }
 }

@@ -102,7 +102,7 @@ class _RegisterPageState
 
                     Image.asset(
                       "assets/images/logo2.png",
-                      height: 90,
+                      height: 80,
                     ),
 
                     const SizedBox(

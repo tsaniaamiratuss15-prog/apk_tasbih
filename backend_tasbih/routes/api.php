@@ -29,3 +29,9 @@ Route::get(
     [HistoryController::class,
     'index']
 );
+
+Route::get(
+    '/trend/{id}',
+    [HistoryController::class,
+    'trend']
+);

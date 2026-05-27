@@ -1,16 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../routes/app_routes.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
+  Future<void> logout(
+    BuildContext context,
+  ) async {
+    SharedPreferences prefs =
+        await SharedPreferences
+            .getInstance();
+
+    await prefs.clear();
+
+    if (!context.mounted)
+      return;
+
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      AppRoutes.login,
+      (route) => false,
+    );
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+      BuildContext context) {
+
     return Scaffold(
+
       body: Stack(
         children: [
 
-          /// background image
+          /// background
           SizedBox.expand(
             child: Image.asset(
               "assets/images/bg_home.png",
@@ -47,7 +70,8 @@ class HomePage extends StatelessWidget {
                     "Dzikir dan Doa Harian",
                     style: TextStyle(
                       fontSize: 16,
-                      color: Colors.white,
+                      color:
+                      Colors.white,
                     ),
                   ),
 
@@ -55,35 +79,41 @@ class HomePage extends StatelessWidget {
                     height: 120,
                   ),
 
-                  /// tombol dzikir
+                  /// dzikir
                   menuCard(
                     context,
-                    title: "Dzikir",
+                    title:
+                    "Dzikir",
                     icon:
-                    Icons.mosque_outlined,
+                    Icons
+                        .mosque_outlined,
                     route:
-                    AppRoutes.dzikir,
+                    AppRoutes
+                        .dzikir,
                   ),
 
                   const SizedBox(
                     height: 20,
                   ),
 
-                  /// tombol doa
+                  /// doa
                   menuCard(
                     context,
-                    title: "Doa",
+                    title:
+                    "Doa",
                     icon:
-                    Icons.menu_book_outlined,
+                    Icons
+                        .menu_book_outlined,
                     route:
-                    AppRoutes.doa,
+                    AppRoutes
+                        .doa,
                   ),
 
                   const SizedBox(
                     height: 20,
                   ),
 
-                  /// tombol tren
+                  /// trend
                   menuCard(
                     context,
                     title:
@@ -92,14 +122,15 @@ class HomePage extends StatelessWidget {
                     Icons
                         .bar_chart_rounded,
                     route:
-                    AppRoutes.trend,
+                    AppRoutes
+                        .trend,
                   ),
 
                   const SizedBox(
                     height: 20,
                   ),
 
-                  /// tombol history
+                  /// history
                   menuCard(
                     context,
                     title:
@@ -107,7 +138,93 @@ class HomePage extends StatelessWidget {
                     icon:
                     Icons.history,
                     route:
-                    AppRoutes.history,
+                    AppRoutes
+                        .history,
+                  ),
+
+                  const SizedBox(
+                    height: 20,
+                  ),
+
+                  /// logout
+                  menuCard(
+                    context,
+                    title:
+                    "Logout",
+                    icon:
+                    Icons.logout,
+
+                    onTap:
+                        () async {
+
+                      bool? confirm =
+                      await showDialog(
+
+                        context:
+                        context,
+
+                        builder:
+                            (_) {
+
+                          return AlertDialog(
+
+                            title:
+                            const Text(
+                              "Logout",
+                            ),
+
+                            content:
+                            const Text(
+                              "Yakin ingin keluar akun?",
+                            ),
+
+                            actions: [
+
+                              TextButton(
+
+                                onPressed:
+                                    () {
+
+                                  Navigator.pop(
+                                    context,
+                                    false,
+                                  );
+                                },
+
+                                child:
+                                const Text(
+                                  "Batal",
+                                ),
+                              ),
+
+                              ElevatedButton(
+
+                                onPressed:
+                                    () {
+
+                                  Navigator.pop(
+                                    context,
+                                    true,
+                                  );
+                                },
+
+                                child:
+                                const Text(
+                                  "Logout",
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+
+                      if (confirm ==
+                          true) {
+
+                        logout(
+                            context);
+                      }
+                    },
                   ),
                 ],
               ),
@@ -118,7 +235,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  /// reusable card button
+  /// reusable menu card
   Widget menuCard(
     BuildContext context, {
 
@@ -126,25 +243,41 @@ class HomePage extends StatelessWidget {
 
     required IconData icon,
 
-    required String route,
+    String? route,
+
+    VoidCallback? onTap,
   }) {
 
     return GestureDetector(
 
       onTap: () {
-        Navigator.pushNamed(
-          context,
-          route,
-        );
+
+        if (onTap !=
+            null) {
+
+          onTap();
+
+        } else if
+        (route !=
+            null) {
+
+          Navigator.pushNamed(
+            context,
+            route,
+          );
+        }
       },
 
       child: Container(
 
-        width: double.infinity,
+        width:
+        double.infinity,
+
         height: 72,
 
         decoration:
         BoxDecoration(
+
           color:
           Colors.white
               .withOpacity(
@@ -155,6 +288,7 @@ class HomePage extends StatelessWidget {
               22),
 
           boxShadow: [
+
             BoxShadow(
               color:
               Colors.black
@@ -180,11 +314,13 @@ class HomePage extends StatelessWidget {
           children: [
 
             Container(
+
               width: 48,
               height: 48,
 
               decoration:
               BoxDecoration(
+
                 color:
                 const Color(
                     0xff4F7C63)
@@ -199,6 +335,7 @@ class HomePage extends StatelessWidget {
 
               child: Icon(
                 icon,
+
                 color:
                 const Color(
                     0xff4F7C63),
@@ -211,9 +348,12 @@ class HomePage extends StatelessWidget {
             Expanded(
               child: Text(
                 title,
+
                 style:
                 const TextStyle(
-                  fontSize: 18,
+                  fontSize:
+                  18,
+
                   fontWeight:
                   FontWeight
                       .w600,

@@ -639,36 +639,6 @@ class _DzikirPageState
                           height:
                               18),
 
-                      if (target >
-                          0) ...[
-                        Text(
-                          "$target",
-                          style:
-                              const TextStyle(
-                            fontSize:
-                                36,
-                            fontWeight:
-                                FontWeight.bold,
-                            color:
-                                Color(
-                                    0xff4F7C63),
-                          ),
-                        ),
-
-                        const Text(
-                          "Target Dzikir",
-                          style:
-                              TextStyle(
-                            color:
-                                Colors.grey,
-                          ),
-                        ),
-
-                        const SizedBox(
-                            height:
-                                18),
-                      ],
-
                       ClipRRect(
                         borderRadius:
                             BorderRadius.circular(
@@ -729,86 +699,122 @@ class _DzikirPageState
                         35),
 
                 /// BUTTON TAP
-                GestureDetector(
-                  onTap:
-                      incrementCounter,
+Opacity(
 
-                  child:
-                      Container(
-                    width:
-                        220,
-                    height:
-                        220,
+  opacity:
+  (target > 0 &&
+      counter >=
+          target)
+      ? 0.45
+      : 1,
 
-                    decoration:
-                        BoxDecoration(
-                      shape:
-                          BoxShape.circle,
+  child:
+  IgnorePointer(
 
-                      gradient:
-                          const LinearGradient(
-                        colors: [
-                          Color(
-                              0xff8BC59B),
-                          Color(
-                              0xff4F7C63),
-                        ],
-                      ),
+    ignoring:
+    target > 0 &&
+        counter >=
+            target,
 
-                      boxShadow: [
-                        BoxShadow(
-                          color:
-                              const Color(
-                                      0xff4F7C63)
-                                  .withOpacity(
-                                      .35),
+    child:
+    GestureDetector(
 
-                          blurRadius:
-                              28,
+      onTap:
+      incrementCounter,
 
-                          offset:
-                              const Offset(
-                                  0,
-                                  12),
-                        ),
-                      ],
-                    ),
+      child:
+      AnimatedContainer(
 
-                    child:
-                        Column(
-                      mainAxisAlignment:
-                          MainAxisAlignment.center,
+        duration:
+        const Duration(
+            milliseconds:
+            250),
 
-                      children: [
-                        Text(
-                          "$counter",
-                          style:
-                              const TextStyle(
-                            fontSize:
-                                52,
-                            color:
-                                Colors.white,
-                            fontWeight:
-                                FontWeight.bold,
-                          ),
-                        ),
+        width: 220,
+        height: 220,
 
-                        const Text(
-                          "TAP",
-                          style:
-                              TextStyle(
-                            color:
-                                Colors.white,
-                            fontSize:
-                                16,
-                            letterSpacing:
-                                2,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+        decoration:
+        BoxDecoration(
+
+          shape:
+          BoxShape.circle,
+
+          gradient:
+          const LinearGradient(
+            colors: [
+              Color(
+                  0xff8BC59B),
+              Color(
+                  0xff4F7C63),
+            ],
+          ),
+
+          boxShadow: [
+
+            BoxShadow(
+              color:
+              const Color(
+                  0xff4F7C63)
+                  .withOpacity(
+                  .35),
+
+              blurRadius:
+              28,
+
+              offset:
+              const Offset(
+                  0, 12),
+            ),
+          ],
+        ),
+
+        child:
+        Column(
+
+          mainAxisAlignment:
+          MainAxisAlignment
+              .center,
+
+          children: [
+
+            Text(
+              "$counter",
+
+              style:
+              const TextStyle(
+                fontSize:
+                52,
+
+                color:
+                Colors.white,
+
+                fontWeight:
+                FontWeight
+                    .bold,
+              ),
+            ),
+
+            const Text(
+              "TAP",
+
+              style:
+              TextStyle(
+                color:
+                Colors.white,
+
+                fontSize:
+                16,
+
+                letterSpacing:
+                2,
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  ),
+),
 
                 const SizedBox(
                     height:

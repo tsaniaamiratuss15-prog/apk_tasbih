@@ -106,7 +106,7 @@ class _LoginPageState
                     /// LOGO
                     Image.asset(
                       "assets/images/logo2.png",
-                      height: 90,
+                      height: 80,
                     ),
 
                     const SizedBox(
@@ -114,7 +114,7 @@ class _LoginPageState
                         20),
 
                     const Text(
-                      "Welcome",
+                      "Selamat Datang",
                       style:
                       TextStyle(
                         fontSize:
