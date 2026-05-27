@@ -11,24 +11,55 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('histori_zikir', function (Blueprint $table) {
+        Schema::create(
+            'histori_zikir',
+            function (
+                Blueprint $table
+            ) {
+
             $table->id();
-            $table->foreignId('user_id')
+
+            $table
+                ->foreignId(
+                    'user_id'
+                )
                 ->constrained()
-                ->onDelete('cascade');
+                ->onDelete(
+                    'cascade'
+                );
 
-            $table->integer('jumlah');
-            $table->date('tanggal');
+            // dzikir apa
+            $table->string(
+                'nama_dzikir'
+            );
 
-            $table->timestamps();
+            // target
+            $table->integer(
+                'target'
+            );
+
+            // total dzikir
+            $table->integer(
+                'jumlah'
+            );
+
+            // tanggal
+            $table->date(
+                'tanggal'
+            );
+
+            $table
+                ->timestamps();
         });
     }
 
     /**
-     * Reverse the migrations.
+     * Reverse migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('histori_zikir');
+        Schema::dropIfExists(
+            'histori_zikir'
+        );
     }
 };

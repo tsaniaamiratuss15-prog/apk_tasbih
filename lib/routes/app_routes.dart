@@ -5,6 +5,7 @@ import '../pages/home_page.dart';
 import '../pages/dzikir_page.dart';
 import '../pages/doa_page.dart';
 import '../pages/trend_page.dart';
+import '../pages/history_page.dart';
 
 class AppRoutes {
   static const login = '/login';
@@ -13,7 +14,7 @@ class AppRoutes {
   static const String dzikir = "/dzikir";
   static const String doa = "/doa";
   static const String trend = "/trend";
-
+  static const String history = "/history";
   static Map<String, WidgetBuilder> routes = {
     login: (context) => const LoginPage(),
     register: (context) => const RegisterPage(),
@@ -21,5 +22,6 @@ class AppRoutes {
     dzikir: (context) => const DzikirPage(),
     doa: (context) => const DoaPage(),
     trend: (context) => const TrendPage(),
+    history: (context) => const HistoryPage(),
   };
 }
