@@ -15,13 +15,12 @@ class MyApp extends StatelessWidget {
 
       debugShowCheckedModeBanner: false,
 
-      title: "TasbihKu",
+      title: "GoTasbih",
 
-      initialRoute: AppRoutes.home,
+      initialRoute: AppRoutes.login,
 
       routes: AppRoutes.routes,
 
     );
-
   }
 }
