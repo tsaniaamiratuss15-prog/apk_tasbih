@@ -32,6 +32,9 @@ class _TrendPageState
 
   String hariAktif =
       "-";
+      
+  String selectedTrend = 
+    'daily';
 
   @override
   void initState() {
@@ -40,13 +43,10 @@ class _TrendPageState
     getTrend();
   }
 
-  Future<void>
-  getTrend() async {
-
-    SharedPreferences
-    prefs =
-    await SharedPreferences
-        .getInstance();
+  Future<void> getTrend() async {
+    SharedPreferences prefs =
+        await SharedPreferences
+            .getInstance();
 
     int userId =
         prefs.getInt(
@@ -59,7 +59,7 @@ class _TrendPageState
       await http.get(
 
         Uri.parse(
-          "http://10.0.2.2:8000/api/trend/$userId",
+          "http://10.0.2.2:8000/api/trend/$userId?type=$selectedTrend",
         ),
       );
 
@@ -67,14 +67,11 @@ class _TrendPageState
       jsonDecode(
           response.body);
 
-      int total =
-      0;
+      int total = 0;
 
-      String bestDay =
-          "-";
+      String bestDay = "-";
 
-      int max =
-      0;
+      int max = 0;
 
       for (var item
       in data) {
@@ -92,7 +89,7 @@ class _TrendPageState
           'total'];
 
           bestDay =
-          item['day'];
+          item['label'];
         }
       }
 
@@ -199,6 +196,47 @@ class _TrendPageState
             const SizedBox(
                 height:
                 24),
+            
+            //dropdown
+            DropdownButton<String>(
+              value: selectedTrend,
+              items: const [
+
+                DropdownMenuItem(
+                  value: 'daily',
+                  child: Text('Harian'),
+                ),
+
+                DropdownMenuItem(
+                  value: 'weekly',
+                  child: Text('Mingguan'),
+                ),
+
+                DropdownMenuItem(
+                  value: 'monthly',
+                  child: Text('Bulanan'),
+                ),
+
+                DropdownMenuItem(
+                  value: 'yearly',
+                  child: Text('Tahunan'),
+                ),
+              ],
+
+              onChanged: (value) {
+
+                setState(() {
+
+                  selectedTrend =
+                      value!;
+
+                  isLoading =
+                      true;
+                });
+
+                getTrend();
+              },
+            ),
 
             /// CHART CARD
             Container(
@@ -336,9 +374,9 @@ class _TrendPageState
                                 ];
 
                                 return Text(
-                                  days[
-                                  value
-                                      .toInt()],
+                                  trendData[
+                                  value.toInt()]
+                                  ['label'],
                                 );
                               },
                             ),

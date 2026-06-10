@@ -53,63 +53,176 @@ extends Controller
     }
 
     /// GET TREND
-    public function trend(
-        $id
-    )
+    public function trend($id, Request $request)
     {
-        $history =
-        HistoriZikir::where(
+        $type = $request->type ?? 'weekly';
+
+        $history = HistoriZikir::where(
             'user_id',
             $id
-        )
-        ->where(
-            'tanggal',
-            '>=',
-            now()->subDays(6)
-        )
-        ->get();
-
-        $days = [
-            'Mon',
-            'Tue',
-            'Wed',
-            'Thu',
-            'Fri',
-            'Sat',
-            'Sun'
-        ];
+        )->get();
 
         $result = [];
 
-        foreach ($days as $day) {
+        /// HARIAN (7 hari)
+        if ($type == 'daily') {
 
-            $total =
-            $history
-            ->filter(
-                function ($item)
-                use ($day) {
-
-                return date(
-                    'D',
-                    strtotime(
-                        $item->tanggal
-                    )
-                ) == $day;
-            })
-            ->sum('jumlah');
-
-            $result[] = [
-                'day' =>
-                $day,
-
-                'total' =>
-                $total,
+            $days = [
+                'Mon' => 'Sen',
+                'Tue' => 'Sel',
+                'Wed' => 'Rab',
+                'Thu' => 'Kam',
+                'Fri' => 'Jum',
+                'Sat' => 'Sab',
+                'Sun' => 'Min'
             ];
+
+            foreach ($days as $day => $indo) {
+
+                $total = $history
+                    ->filter(function ($item)
+                    use ($day) {
+
+                        return date(
+                            'D',
+                            strtotime(
+                                $item->tanggal
+                            )
+                        ) == $day;
+                    })
+                    ->sum('jumlah');
+
+                $result[] = [
+                    'label' => $indo,
+                    'total' => $total,
+                ];
+            }
+        }
+
+        /// MINGGUAN (4 minggu terakhir)
+        else if ($type == 'weekly') {
+
+            for ($i = 3; $i >= 0; $i--) {
+
+                $start =
+                now()->subWeeks($i)
+                ->startOfWeek();
+
+                $end =
+                now()->subWeeks($i)
+                ->endOfWeek();
+
+                $total = $history
+                    ->filter(function ($item)
+                    use ($start, $end) {
+
+                        $tanggal =
+                        strtotime(
+                            $item->tanggal
+                        );
+
+                        return $tanggal >=
+                        strtotime($start)
+                        &&
+                        $tanggal <=
+                        strtotime($end);
+                    })
+                    ->sum('jumlah');
+
+                $result[] = [
+                    'label' =>
+                    'Mg' . (4 - $i),
+                    'total' =>
+                    $total,
+                ];
+            }
+        }
+
+        /// BULANAN (12 bulan)
+        else if ($type == 'monthly') {
+
+            for ($i = 11; $i >= 0; $i--) {
+
+                $month =
+                now()->subMonths($i);
+
+                $total = $history
+                    ->filter(function ($item)
+                    use ($month) {
+
+                        return date(
+                            'Y-m',
+                            strtotime(
+                                $item->tanggal
+                            )
+                        )
+                        ==
+                        $month
+                        ->format('Y-m');
+                    })
+                    ->sum('jumlah');
+
+                $bulanIndo = [
+                    'Jan' => 'Jan',
+                    'Feb' => 'Feb',
+                    'Mar' => 'Mar',
+                    'Apr' => 'Apr',
+                    'May' => 'Mei',
+                    'Jun' => 'Jun',
+                    'Jul' => 'Jul',
+                    'Aug' => 'Agu',
+                    'Sep' => 'Sep',
+                    'Oct' => 'Okt',
+                    'Nov' => 'Nov',
+                    'Dec' => 'Des',
+                ];
+
+                $result[] = [
+                    'label' =>
+                    $bulanIndo[
+                        $month
+                        ->format('M')
+                    ],
+
+                    'total' =>
+                    $total,
+                ];
+            }
+        }
+
+        /// TAHUNAN (5 tahun)
+        else if ($type == 'yearly') {
+
+            for ($i = 4; $i >= 0; $i--) {
+
+                $year =
+                now()->subYears($i)
+                ->year;
+
+                $total = $history
+                    ->filter(function ($item)
+                    use ($year) {
+
+                        return date(
+                            'Y',
+                            strtotime(
+                                $item->tanggal
+                            )
+                        ) == $year;
+                    })
+                    ->sum('jumlah');
+
+                $result[] = [
+                    'label' =>
+                    (string) $year,
+
+                    'total' =>
+                    $total,
+                ];
+            }
         }
 
         return response()
-            ->json(
-                $result
-            );
-    }
+            ->json($result);
+}
 }
