@@ -184,7 +184,7 @@ class _TrendPageState
                 Expanded(
                   child:
                   summaryCard(
-                    "Hari Aktif",
+                    "Periode Aktif",
                     hariAktif,
                     Icons
                         .local_fire_department,
