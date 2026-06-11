@@ -11,6 +11,7 @@ class LoginPage extends StatefulWidget {
       _LoginPageState();
 }
 
+//controller untuk ambil input email dan password
 class _LoginPageState
     extends State<LoginPage> {
 
@@ -20,6 +21,7 @@ class _LoginPageState
   final passwordController =
       TextEditingController();
 
+  // sembunyikan password
   bool obscurePassword =
       true;
 
@@ -29,6 +31,7 @@ class _LoginPageState
 
     return Scaffold(
 
+      // membuat background gradient
       body: Container(
 
         decoration:
@@ -50,6 +53,7 @@ class _LoginPageState
           ),
         ),
 
+        // membuat form login
         child: SafeArea(
 
           child: Center(
@@ -270,6 +274,7 @@ class _LoginPageState
                         onPressed:
                             () async {
 
+                          // panggil service login
                           final response =
                           await AuthService
                               .login(
@@ -283,23 +288,25 @@ class _LoginPageState
                                 .text,
                           );
 
+                          // cek response
                           if (response
                               .containsKey(
                               'token')) {
-
+              
                             SharedPreferences
                             prefs =
                             await SharedPreferences
                                 .getInstance();
 
-                            /// save login
+                            // simpan data login ke shared preferences
                             await prefs
                                 .setString(
                               'token',
                               response[
                               'token'],
                             );
-
+                            
+                            // simpan data user ke shared preferences
                             await prefs
                                 .setInt(
                               'user_id',
@@ -313,7 +320,7 @@ class _LoginPageState
                               response[
                               'user']['name'],
                             );
-
+                            
                             await prefs
                                 .setString(
                               'email',
@@ -327,6 +334,7 @@ class _LoginPageState
                               return;
                             }
 
+                            // tampilkan snackbar berhasil login
                             ScaffoldMessenger
                                 .of(
                               context,
@@ -340,6 +348,7 @@ class _LoginPageState
                               ),
                             );
 
+                            // navigasi ke halaman home
                             Navigator
                                 .pushReplacementNamed(
                               context,
@@ -365,7 +374,8 @@ class _LoginPageState
                             );
                           }
                         },
-
+                        
+                        // styling tombol login
                         style:
                         ElevatedButton
                             .styleFrom(

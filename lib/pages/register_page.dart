@@ -16,7 +16,7 @@ class _RegisterPageState
   bool obscureConfirmPassword =
       true;
 
-  // CONTROLLER
+  // controller untuk input field
   final nameController =
       TextEditingController();
 
@@ -34,6 +34,7 @@ class _RegisterPageState
 
     return Scaffold(
 
+      // membuat background gradient
       body: Container(
 
         decoration: const BoxDecoration(
@@ -333,6 +334,7 @@ class _RegisterPageState
                             return;
                           }
 
+                          // MEMANGGIL SERVICE REGISTER
                           final response =
                           await AuthService
                               .register(
@@ -365,6 +367,7 @@ class _RegisterPageState
                               ),
                             );
 
+                            // kembali ke halaman login
                             Navigator.pop(
                                 context);
 
@@ -462,6 +465,7 @@ class _RegisterPageState
     );
   }
 
+  // widget untuk membuat input field
   Widget buildField({
     required TextEditingController
     controller,

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+// PAGE DZIKIR
 class DzikirPage extends StatefulWidget {
   const DzikirPage({super.key});
 
@@ -54,6 +55,7 @@ class _DzikirPageState
 
   /// SAVE HISTORY
   Future<void> saveHistory()
+  //mengambil data user id dari shared preferences untuk disimpan ke history
   async {
     SharedPreferences
         prefs =
@@ -64,7 +66,7 @@ class _DzikirPageState
         prefs.getInt(
                 'user_id') ??
             1;
-
+    //mengirim data history ke backend
     await http.post(
       Uri.parse(
         "http://10.0.2.2:8000/api/history",
@@ -87,7 +89,9 @@ class _DzikirPageState
     );
   }
 
+  /// TARGET SELECTION
   void showTargetDialog() {
+    //menampilkan dialog untuk memilih target dzikir
     showDialog(
 
       context: context,
@@ -106,6 +110,7 @@ class _DzikirPageState
                 20),
           ),
 
+          
           title: Row(
 
             mainAxisAlignment:
@@ -186,6 +191,7 @@ class _DzikirPageState
     );
   }
 
+  /// TARGET BUTTON LANJUTAN
   Widget targetButton(
       int value) {
     return Padding(
@@ -303,7 +309,7 @@ class _DzikirPageState
     );
   }
 
-  /// TAP
+  /// TAP BUTTON
   Future<void>
       incrementCounter()
   async {
@@ -328,7 +334,7 @@ class _DzikirPageState
     }
   }
 
-  /// TARGET DONE
+  /// TARGET DONE (POP UP DIALOG)
   void showCompletedDialog() {
     showDialog(
       context: context,
@@ -381,7 +387,8 @@ class _DzikirPageState
       },
     );
   }
-
+  
+  /// RESET BUTTON
   void resetCounter() {
     setState(() {
       counter = 0;
@@ -699,123 +706,124 @@ class _DzikirPageState
                         35),
 
                 /// BUTTON TAP
-Opacity(
+                Opacity(
+                  // membuat efek redup ketika target tercapai
+                  opacity:
+                  (target > 0 &&
+                      counter >=
+                          target)
+                      ? 0.45
+                      : 1,
 
-  opacity:
-  (target > 0 &&
-      counter >=
-          target)
-      ? 0.45
-      : 1,
+                  child:
+                  IgnorePointer(
 
-  child:
-  IgnorePointer(
+                    ignoring:
+                    target > 0 &&
+                        counter >=
+                            target,
 
-    ignoring:
-    target > 0 &&
-        counter >=
-            target,
+                    child:
+                    GestureDetector(
 
-    child:
-    GestureDetector(
+                      onTap:
+                      incrementCounter,
 
-      onTap:
-      incrementCounter,
+                      child:
+                      AnimatedContainer(
 
-      child:
-      AnimatedContainer(
+                        duration:
+                        const Duration(
+                            milliseconds:
+                            250),
 
-        duration:
-        const Duration(
-            milliseconds:
-            250),
+                        width: 220,
+                        height: 220,
 
-        width: 220,
-        height: 220,
+                        decoration:
+                        BoxDecoration(
 
-        decoration:
-        BoxDecoration(
+                          shape:
+                          BoxShape.circle,
 
-          shape:
-          BoxShape.circle,
+                          gradient:
+                          const LinearGradient(
+                            colors: [
+                              Color(
+                                  0xff8BC59B),
+                              Color(
+                                  0xff4F7C63),
+                            ],
+                          ),
 
-          gradient:
-          const LinearGradient(
-            colors: [
-              Color(
-                  0xff8BC59B),
-              Color(
-                  0xff4F7C63),
-            ],
-          ),
+                          boxShadow: [
 
-          boxShadow: [
+                            BoxShadow(
+                              color:
+                              const Color(
+                                  0xff4F7C63)
+                                  .withOpacity(
+                                  .35),
 
-            BoxShadow(
-              color:
-              const Color(
-                  0xff4F7C63)
-                  .withOpacity(
-                  .35),
+                              blurRadius:
+                              28,
 
-              blurRadius:
-              28,
+                              offset:
+                              const Offset(
+                                  0, 12),
+                            ),
+                          ],
+                        ),
 
-              offset:
-              const Offset(
-                  0, 12),
-            ),
-          ],
-        ),
+                        child:
+                        Column(
 
-        child:
-        Column(
+                          mainAxisAlignment:
+                          MainAxisAlignment
+                              .center,
 
-          mainAxisAlignment:
-          MainAxisAlignment
-              .center,
+                          children: [
 
-          children: [
+                            Text(
+                              "$counter",
 
-            Text(
-              "$counter",
+                              style:
+                              const TextStyle(
+                                fontSize:
+                                52,
 
-              style:
-              const TextStyle(
-                fontSize:
-                52,
+                                color:
+                                Colors.white,
 
-                color:
-                Colors.white,
+                                fontWeight:
+                                FontWeight
+                                    .bold,
+                              ),
+                            ),
 
-                fontWeight:
-                FontWeight
-                    .bold,
-              ),
-            ),
+                            const Text(
+                              "TAP",
 
-            const Text(
-              "TAP",
+                              style:
+                              TextStyle(
+                                color:
+                                Colors.white,
 
-              style:
-              TextStyle(
-                color:
-                Colors.white,
+                                fontSize:
+                                16,
 
-                fontSize:
-                16,
+                                letterSpacing:
+                                2,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
 
-                letterSpacing:
-                2,
-              ),
-            ),
-          ],
-        ),
-      ),
-    ),
-  ),
-),
-
+                // RESET BUTTON
                 const SizedBox(
                     height:
                         30),
