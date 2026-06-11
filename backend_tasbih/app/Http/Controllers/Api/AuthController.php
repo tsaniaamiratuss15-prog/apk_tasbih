@@ -26,6 +26,7 @@ class AuthController extends Controller
             'password' => bcrypt($request->password),
         ]);
 
+        // buat token
         return response()->json([
             'message' => 'Register berhasil',
             'user' => $user
@@ -61,11 +62,13 @@ class AuthController extends Controller
             ], 401);
         }
 
+        // buat token
         $token = $user
             ->createToken(
                 'auth_token'
             )->plainTextToken;
 
+        // simpan token ke database
         return response()->json([
             'message' =>
             'Login berhasil',
